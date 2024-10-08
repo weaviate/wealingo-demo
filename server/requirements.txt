@@ -1,0 +1,5 @@
+Django==5.1
+gunicorn
+psycopg2-binary
+django-cors-headers
+requests

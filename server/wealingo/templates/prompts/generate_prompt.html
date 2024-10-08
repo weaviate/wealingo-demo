@@ -1,0 +1,31 @@
+{% autoescape off %}
+the user got the following questions wrong:
+
+{% for question in questions %}
+
+"category": {{ question.category }},
+"question": {{ question.question }},
+"answer": {{ question.answer }},
+"difficulty_rating": {{ question.difficulty_rating }},
+
+{% endfor %}
+
+Create three new questions that will help the user improve their Italian and learn how to talk about {{query}}. 
+The questions should be personalized to the mistakes above. 
+The difficulty raitng of the questions should be based on the previous failed attempts of the user. 
+If the user has failed at difficulty level 3, for example, provide questions with lower difficulty rating
+The questions shouldn't be a repeat of what is already provided in the input. 
+Place the questions in one of these 5 categories - Introduce Yourself, Navigate a City, Talk about family and friends, Order in a restaurant, Buy things in a store
+
+
+Use the following format, in valid json, without any potential json decode errors :
+
+"question": [the phrase the user needs to translate, in english, do not include any instructions],
+"answer": [the correct answer to the question, in Italian],
+"instruction": [tell the user some points to remember in this translation],
+"difficulty_rating": [difficulty rating of the translation],
+"category": [category of the question],
+"options": [3 semicolon separated wrong answers which talk about something else]
+
+{% endautoescape %}
+
