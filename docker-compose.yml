@@ -1,0 +1,48 @@
+services:
+  server:
+    build:
+      context: ./server/wealingo
+    container_name: server
+    command: gunicorn --bind 0.0.0.0:8000 server.wsgi:application
+    volumes:
+      - ./server:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+
+  ui:
+    image: ui_image
+    build:
+      context: ./ui/
+    container_name: flutter-ui
+    ports:
+      - "3000:3000"
+    environment:
+      - FLUTTER_WEB_PORT=3000
+      - FLUTTER_CHANNEL=stable
+
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: ${DB_USER}         # Admin user for Postgres (Django will use this)
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # Password for the admin user
+      POSTGRES_DB: ${DB_NAME}           # The default database name created on startup
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      retries: 5
+
+volumes:
+  postgres_data:
