@@ -32,6 +32,18 @@ DB_USER=postgres
 DB_PASSWORD=[ac35...]
 ``` 
 
+You can also set up the front end by installing `Flutter` and running the following to deploy the web version of wealingo
+
+```
+flutter build web
+flutter run
+```
+For the django backend, you can also use it's python interactive shell by running the following commands in the server/wealingo folder 
+
+```
+python manage.py runserver 
+```
+
 ## Setup Weaviate
 
 **Create a Weaviate instance**
